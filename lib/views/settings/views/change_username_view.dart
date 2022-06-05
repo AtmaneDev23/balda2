@@ -2,8 +2,9 @@ import 'package:balda2/common/large_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
 import '../../../constants.dart';
+import '../../../helpers/user_provider.dart';
 
 class ChangeUserView extends StatefulWidget {
   const ChangeUserView({Key? key}) : super(key: key);
@@ -14,6 +15,19 @@ class ChangeUserView extends StatefulWidget {
 }
 
 class _ChangeUserViewState extends State<ChangeUserView> {
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+
+  bool isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    firstName.text =
+        Provider.of<UserProvider>(context, listen: false).user.firstName;
+    lastName.text =
+        Provider.of<UserProvider>(context, listen: false).user.lastName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,6 +113,7 @@ class _ChangeUserViewState extends State<ChangeUserView> {
                         ),
                         SizedBox(height: 11.h),
                         TextField(
+                          controller: firstName,
                           style: GoogleFonts.tajawal(
                             fontSize: 18.sp,
                             color: kGreyColor,
@@ -148,6 +163,7 @@ class _ChangeUserViewState extends State<ChangeUserView> {
                         ),
                         SizedBox(height: 11.h),
                         TextField(
+                          controller: lastName,
                           style: GoogleFonts.tajawal(
                             fontSize: 18.sp,
                             color: kGreyColor,

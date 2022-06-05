@@ -31,7 +31,6 @@ void main() async {
         path: 'assets/translations/',
         supportedLocales: const [
           Locale('ar'),
-          Locale('en'),
         ],
         startLocale: const Locale('ar'),
         assetLoader: const CodegenLoader(),

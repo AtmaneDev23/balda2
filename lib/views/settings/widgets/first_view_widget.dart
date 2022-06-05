@@ -1,5 +1,4 @@
 import 'package:balda2/views/settings/views/change_phone_view.dart';
-import 'package:balda2/views/settings/views/change_username_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,8 +31,7 @@ class _FirstSettingsViewState extends State<FirstSettingsView> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () =>
-                    Navigator.of(context).pushNamed(ChangeUserView.routeName),
+                onTap: () {},
                 child: Container(
                   height: 95.h,
                   width: double.infinity,
@@ -59,9 +57,7 @@ class _FirstSettingsViewState extends State<FirstSettingsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            Provider.of<UserProvider>(context, listen: false)
-                                .user
-                                .firstName,
+                            "${Provider.of<UserProvider>(context, listen: false).user.firstName} ${Provider.of<UserProvider>(context, listen: false).user.lastName}",
                             style: GoogleFonts.tajawal(
                               fontSize: 18.sp,
                               color: kGreyColor,

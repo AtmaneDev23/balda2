@@ -390,7 +390,7 @@ class _HomeViewState extends State<HomeView> {
                       catrgory: ad.subCategory.name,
                       city: ad.city.name,
                       createdAt: ad.createdAt,
-                      discription: ad.details,
+                      discription: ad.title,
                       imagePath: ad.photos[0].photo,
                       isFavorite: ad.isFavorite == 'true' ? true : false,
                       username: ad.user.firstName,

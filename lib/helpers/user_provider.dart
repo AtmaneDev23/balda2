@@ -2,7 +2,7 @@ import 'package:balda2/models/AuthModels/user.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider with ChangeNotifier {
-  late User user = User(
+  User user = User(
     id: '',
     firstName: '',
     lastName: '',
@@ -14,8 +14,8 @@ class UserProvider with ChangeNotifier {
     createdAt: '',
   );
 
-  void setUser(User user) {
-    user = user;
+  void setUser(User newUser) {
+    user = newUser;
     notifyListeners();
   }
 

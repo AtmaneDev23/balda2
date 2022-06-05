@@ -12,29 +12,26 @@ class GridViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 122.h,
-      width: 102.w,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              height: 98.h,
-              width: 95.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.r),
-                  color: const Color.fromRGBO(32, 87, 166, 0.04),
-                  shape: BoxShape.rectangle),
-              child: Center(
-                child: SvgPicture.asset(
-                  svg,
-                  color: kprimaryColor,
+            Expanded(
+              flex: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6.r),
+                    color: const Color.fromRGBO(32, 87, 166, 0.04),
+                    shape: BoxShape.rectangle),
+                child: Center(
+                  child: SvgPicture.asset(
+                    svg,
+                    color: kprimaryColor,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 5.h,
             ),
             FittedBox(
               child: Text(

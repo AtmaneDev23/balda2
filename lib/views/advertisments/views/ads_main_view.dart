@@ -27,21 +27,28 @@ class _MainAdsViewState extends State<MainAdsView> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      await AdsController.getAds(
-        Provider.of<UserProvider>(context, listen: false).user.apiToken,
-      ).then((value) {
-        setState(() {
-          _activeAds = value;
+      if (mounted) {
+        await AdsController.gatActiveAds(
+          Provider.of<UserProvider>(context, listen: false).user.apiToken,
+        ).then((value) {
+          if (mounted) {
+            setState(() {
+              _activeAds = value;
+            });
+          }
         });
-      });
-
-      await AdsController.getAds(
-        Provider.of<UserProvider>(context, listen: false).user.apiToken,
-      ).then((value) {
-        setState(() {
-          _finishedAds = value;
+      }
+      if (mounted) {
+        await AdsController.getFinishedAds(
+          Provider.of<UserProvider>(context, listen: false).user.apiToken,
+        ).then((value) {
+          if (mounted) {
+            setState(() {
+              _finishedAds = value;
+            });
+          }
         });
-      });
+      }
     });
   }
 
@@ -151,38 +158,40 @@ class _MainAdsViewState extends State<MainAdsView> {
                   SizedBox(
                     height: 200.h,
                   ),
-                  SizedBox(
-                    height: 384.h,
-                    width: double.infinity,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(right: 17.w),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: _activeAds.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 12.w,
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(AdsMessagesView.routeName);
-                            },
-                            child: HorizontalAdWidget(
-                                imagePath: _activeAds[index].photos.first.photo,
-                                title: _activeAds[index].title,
-                                createdAt: _activeAds[index].createdAt,
-                                username: _activeAds[index].user.firstName,
-                                city: _activeAds[index].city.name,
-                                catrgory: _activeAds[index].category.name,
-                                messagesCount: "0",
-                                entAt: _activeAds[index].endAt,
-                                id: _activeAds[index].id.toString()));
-                      },
+                  if (_activeAds.isNotEmpty)
+                    SizedBox(
+                      height: 384.h,
+                      width: double.infinity,
+                      child: ListView.separated(
+                        padding: EdgeInsets.only(right: 17.w),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: _activeAds.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            width: 12.w,
+                          );
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushNamed(AdsMessagesView.routeName);
+                              },
+                              child: HorizontalAdWidget(
+                                  imagePath:
+                                      _activeAds[index].photos.first.photo,
+                                  title: _activeAds[index].title,
+                                  createdAt: _activeAds[index].createdAt,
+                                  username: _activeAds[index].user.firstName,
+                                  city: _activeAds[index].city.name,
+                                  catrgory: _activeAds[index].category.name,
+                                  messagesCount: "0",
+                                  entAt: _activeAds[index].endAt,
+                                  id: _activeAds[index].id.toString()));
+                        },
+                      ),
                     ),
-                  ),
                   SizedBox(
                     height: 19.h,
                   ),
@@ -196,7 +205,9 @@ class _MainAdsViewState extends State<MainAdsView> {
                         "الاعلانات المنتهيه",
                         style: GoogleFonts.tajawal(
                           fontSize: 20.sp,
-                          color: kprimaryColor,
+                          color: _finishedAds.isEmpty
+                              ? Colors.white
+                              : kprimaryColor,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -209,7 +220,9 @@ class _MainAdsViewState extends State<MainAdsView> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.symmetric(horizontal: 17.w),
                         decoration: BoxDecoration(
-                            color: const Color.fromRGBO(51, 124, 201, 0.11),
+                            color: _finishedAds.isEmpty
+                                ? Colors.white
+                                : const Color.fromRGBO(51, 124, 201, 0.11),
                             borderRadius: BorderRadius.circular(20.r)),
                         child: Center(
                           child: Text(
@@ -228,38 +241,40 @@ class _MainAdsViewState extends State<MainAdsView> {
                   SizedBox(
                     height: 19.h,
                   ),
-                  SizedBox(
-                    height: 192.h,
-                    width: double.infinity,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(right: 17.w, left: 17.w),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: _finishedAds.length,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: 12.w,
-                        );
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(ChatView.routeName);
-                          },
-                          child: FinishedAdWidget(
-                              imagePath: _activeAds[index].photos.first.photo,
-                              title: _activeAds[index].title,
-                              createdAt: _activeAds[index].createdAt,
-                              username: _activeAds[index].user.firstName,
-                              city: _activeAds[index].city.name,
-                              catrgory: _activeAds[index].category.name,
-                              messagesCount: "0",
-                              entAt: _activeAds[index].endAt,
-                              id: _activeAds[index].id.toString()),
-                        );
-                      },
+                  if (_finishedAds.isNotEmpty)
+                    SizedBox(
+                      height: 192.h,
+                      width: double.infinity,
+                      child: ListView.separated(
+                        padding: EdgeInsets.only(right: 17.w, left: 17.w),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: _finishedAds.length,
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(
+                            width: 12.w,
+                          );
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed(ChatView.routeName);
+                            },
+                            child: FinishedAdWidget(
+                                imagePath: _activeAds[index].photos.first.photo,
+                                title: _activeAds[index].title,
+                                createdAt: _activeAds[index].createdAt,
+                                username: _activeAds[index].user.firstName,
+                                city: _activeAds[index].city.name,
+                                catrgory: _activeAds[index].category.name,
+                                messagesCount: "0",
+                                entAt: _activeAds[index].endAt,
+                                id: _activeAds[index].id.toString()),
+                          );
+                        },
+                      ),
                     ),
-                  ),
                 ],
               ),
             ),
